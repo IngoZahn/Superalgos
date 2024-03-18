@@ -52,6 +52,17 @@ const runPlatform = () => {
 
   let totalRAM = os.totalmem() // Get total ram installed
   totalRAM = totalRAM / 1024 / 1024
+  
+  // Check for command line option maxMem and if it has a value
+  const customIndex = process.argv.indexOf('maxMem');
+  let customValue;
+  if (customIndex > -1) {
+    // Retrieve the value after maxMem
+    customValue = process.argv[customIndex + 1];
+  }
+  totalRAM= isNaN(Number(customValue)) ? totalRAM : Number(customValue)
+  console.log('maxMem:', `${customValue}`);
+
   let optimalRAM = totalRAM * 0.85 // Use 85% of installed RAM
   let maxOldSpaceSize = "--max-old-space-size=" + (optimalRAM.toFixed(0)).toString()
   let options
